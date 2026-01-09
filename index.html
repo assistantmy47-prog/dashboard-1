@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BucketPulse - S3 Ingestion Overview</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="background">
+      <div class="glow glow-a"></div>
+      <div class="glow glow-b"></div>
+      <div class="grid-lines"></div>
+    </div>
+
+    <div class="app">
+      <header class="topbar">
+        <div class="brand">
+          <div class="brand-dot"></div>
+          <div>
+            <div class="brand-name">BucketPulse</div>
+            <div class="brand-subtitle">S3 Ingestion Monitor</div>
+          </div>
+        </div>
+
+        <nav class="nav">
+          <button class="nav-item active">Overview</button>
+          <button class="nav-item">Sources</button>
+          <button class="nav-item">Pipelines</button>
+          <button class="nav-item">Analytics</button>
+          <button class="nav-item">AI Insights</button>
+        </nav>
+
+        <div class="top-actions">
+          <div class="status-pill">
+            <span class="status-dot"></span>
+            Live ingest
+          </div>
+          <button class="icon-button" aria-label="Settings">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M12 8.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Zm8.5 3.5a6.9 6.9 0 0 0-.1-1.3l2-1.6-2-3.4-2.4 1a7.6 7.6 0 0 0-2.2-1.3L13.9 2h-3.8L9 5.4a7.6 7.6 0 0 0-2.2 1.3l-2.4-1-2 3.4 2 1.6a6.9 6.9 0 0 0 0 2.6l-2 1.6 2 3.4 2.4-1a7.6 7.6 0 0 0 2.2 1.3L10.1 22h3.8l1-3.4a7.6 7.6 0 0 0 2.2-1.3l2.4 1 2-3.4-2-1.6c.1-.4.1-.9.1-1.3Z"
+              />
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <main class="layout">
+        <aside class="side-panel">
+          <div class="panel-card">
+            <div class="panel-header">
+              <span>Ingestion Health</span>
+              <span class="panel-meta" id="updated-time">Updated 14:35 UTC</span>
+            </div>
+            <div class="mini-grid">
+              <div class="mini-card">
+                <div class="mini-title">API Latency</div>
+                <div class="mini-value" id="api-latency">1.8s</div>
+                <div class="mini-foot">p95</div>
+              </div>
+              <div class="mini-card">
+                <div class="mini-title">SES Queue</div>
+                <div class="mini-value" id="ses-queue">42</div>
+                <div class="mini-foot">emails</div>
+              </div>
+              <div class="mini-card">
+                <div class="mini-title">Retry Rate</div>
+                <div class="mini-value" id="retry-rate">1.2%</div>
+                <div class="mini-foot">24h</div>
+              </div>
+              <div class="mini-card">
+                <div class="mini-title">Schema Drift</div>
+                <div class="mini-value" id="schema-drift">0.4%</div>
+                <div class="mini-foot">week</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel-card">
+            <div class="panel-header">
+              <span>AI Insights</span>
+              <button class="pill-button">View all</button>
+            </div>
+            <div class="insight">
+              <div class="insight-title">Peak load forecast +12%</div>
+              <p>
+                API ingestion spikes are expected tomorrow morning based on weekly
+                partner activity.
+              </p>
+            </div>
+            <div class="insight">
+              <div class="insight-title">SES parser update</div>
+              <p>
+                New sender template detected from partner "NorthBeam". Update
+                mapping to avoid schema drift.
+              </p>
+            </div>
+          </div>
+        </aside>
+
+        <section class="content">
+          <div class="section-header">
+            <div>
+              <h1>Overview</h1>
+              <p>Metrics for data landing in the S3 bucket across all external sources.</p>
+            </div>
+            <div class="timeframe">
+              <span class="timeframe-label">Timeframe</span>
+              <div class="timeframe-buttons" role="group" aria-label="Select timeframe">
+                <button class="time-button active" data-range="7d" aria-pressed="true">
+                  Last 7 days
+                </button>
+                <button class="time-button" data-range="30d" aria-pressed="false">
+                  Last 30 days
+                </button>
+                <button class="time-button" data-range="90d" aria-pressed="false">
+                  Last 90 days
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="stat-grid">
+            <div class="stat-card">
+              <div class="stat-label">Total Objects Ingested</div>
+              <div class="stat-value" id="total-objects">1.22M</div>
+              <div class="stat-meta positive" id="objects-change">+8.1% since last period</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Data Volume</div>
+              <div class="stat-value" id="data-volume">18.4 TB</div>
+              <div class="stat-meta positive" id="volume-change">+11.4% since last period</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">API Success Rate</div>
+              <div class="stat-value" id="api-success">99.2%</div>
+              <div class="stat-meta positive" id="api-change">+0.4% stability</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">SES Processing Time</div>
+              <div class="stat-value" id="ses-latency">3.6s</div>
+              <div class="stat-meta negative" id="ses-change">-0.7s improvement</div>
+            </div>
+          </div>
+
+          <div class="chart-card">
+            <div class="card-header">
+              <div>
+                <h2>Ingestion Throughput & Forecast</h2>
+                <p>Objects per minute with API and SES feeds.</p>
+              </div>
+              <div class="card-actions">
+                <label class="toggle">
+                  <input type="checkbox" id="forecast-toggle" checked />
+                  <span class="toggle-track"></span>
+                  <span class="toggle-label">Show forecast</span>
+                </label>
+                <select id="view-select">
+                  <option value="objects">Objects</option>
+                  <option value="volume">Data volume</option>
+                </select>
+              </div>
+            </div>
+            <div class="chart-wrapper">
+              <canvas id="throughput-chart"></canvas>
+            </div>
+            <div class="legend">
+              <div class="legend-item">
+                <span class="legend-dot api"></span> API stream
+              </div>
+              <div class="legend-item">
+                <span class="legend-dot ses"></span> SES ingestion
+              </div>
+              <div class="legend-item">
+                <span class="legend-dot total"></span> Total
+              </div>
+              <div class="legend-item forecast">
+                <span class="legend-dot forecast"></span> Forecast
+              </div>
+            </div>
+          </div>
+
+          <div class="table-card">
+            <div class="card-header">
+              <div>
+                <h2>Ingestion Summary Table</h2>
+                <p>Latest source activity and bucket ingestion status.</p>
+              </div>
+              <button class="pill-button">Export CSV</button>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Source</th>
+                    <th>Channel</th>
+                    <th>Objects</th>
+                    <th>Avg Size</th>
+                    <th>Success</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="table-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <aside class="side-panel">
+          <div class="panel-card">
+            <div class="panel-header">
+              <span>Source Mix</span>
+              <span class="panel-meta" id="source-total">8 active</span>
+            </div>
+            <div class="source-row">
+              <div>
+                <div class="source-label">API Integrations</div>
+                <div class="source-value" id="api-sources">5</div>
+              </div>
+              <div class="source-bar">
+                <span id="api-bar"></span>
+              </div>
+            </div>
+            <div class="source-row">
+              <div>
+                <div class="source-label">SES Ingestion</div>
+                <div class="source-value" id="ses-sources">3</div>
+              </div>
+              <div class="source-bar ses">
+                <span id="ses-bar"></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel-card">
+            <div class="panel-header">
+              <span>Alerts</span>
+              <button class="pill-button">Resolve</button>
+            </div>
+            <div class="alert">
+              <div class="alert-title">Partner "Solstice" throttling</div>
+              <p>API rate limit hit 3x today. Consider temporary burst capacity.</p>
+            </div>
+            <div class="alert">
+              <div class="alert-title">SES inbox backlog</div>
+              <p>Backlog of 210 emails pending parsing in us-east-1.</p>
+            </div>
+          </div>
+        </aside>
+      </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
